@@ -15,7 +15,9 @@ interface EpicTextFieldProps<T extends FieldValues> {
   textFieldClassName?: string;
   epicInputClassName?: string;
   readOnly?: boolean;
-  showLabel?: boolean
+  showLabel?: boolean;
+  showInfo?: boolean;
+  tooltipText?: string;
 }
 
 const EpicTextField = <T extends FieldValues>({
@@ -30,10 +32,12 @@ const EpicTextField = <T extends FieldValues>({
   epicInputClassName = '',
   readOnly = false,
   showLabel = true,
+  showInfo = false,
+  tooltipText = '',
 }: EpicTextFieldProps<T>) => {
   return (
     <div className={clsx('mb-0', textFieldClassName)}>
-      {showLabel && <EpicLabel htmlFor={name} label={label || ""} required={required} />}
+      {showLabel && <EpicLabel htmlFor={name} label={label || ""} required={required} showInfo={showInfo} tooltipText={tooltipText}/>}
       <Controller
         name={name}
         control={control}

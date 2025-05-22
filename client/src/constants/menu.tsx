@@ -4,7 +4,7 @@ export const MENU_ITEMS = [
     {
         label: 'dashboard',
         icon: () => <HomeIcon />,
-        navLink: "/dashboard",
+        navLink: "/",
         param: {}
     },
     {
