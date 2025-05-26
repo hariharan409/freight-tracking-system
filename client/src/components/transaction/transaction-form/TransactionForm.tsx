@@ -47,13 +47,13 @@ const TransactionForm = () => {
             <div className="grid grid-cols-[repeat(auto-fit,minmax(250px,1fr))] justify-start gap-3 mt-5">
                 <EpicDatePicker name="planned_etd_date" control={control} label="Planned ETD Date" />
                 <EpicDatePicker name="planned_eta_date" control={control} label="Planned ETA Date" />
-                <EpicTextField name="planned_total_transit_days" control={control} label="Total Transit Days" placeholder="Total Transit Days" readOnly={true} showInfo  tooltipText="total_transit_days = planned eta - planned etd (in days)"/>
+                <EpicTextField name="planned_total_transit_days" control={control} label="Total Transit Days" placeholder="Total Transit Days" readOnly={true} showInfo  tooltipText="Total Transit Days = Planned ETA Date - Planned ETD Date (in days)"/>
             </div>
             <h3 className="text-center">actual tracking details</h3>
             <div className="grid grid-cols-[repeat(auto-fit,minmax(250px,1fr))] justify-start gap-3 mt-5">
                 <EpicDatePicker name="actual_etd_date" control={control} label="Actual ETD Date" />
                 <EpicDatePicker name="actual_eta_date" control={control} label="Actual ETA Date" />
-                <EpicTextField name="total_delay" control={control} label="Total Delay" placeholder="Total Delay" readOnly={true} showInfo  tooltipText="total_delay = actual eta - planned eta (in days)"/>
+                <EpicTextField name="total_delay" control={control} label="Total Delay" placeholder="Total Delay" readOnly={true} showInfo  tooltipText="Total Delay = Actual ETA Date - Planned ETA Date (in days)"/>
             </div>
             <div className="mt-5">
                 <div className="flex justify-between items-center gap-5">
