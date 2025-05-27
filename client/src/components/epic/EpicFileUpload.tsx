@@ -57,22 +57,8 @@ const EpicFileUpload = <T extends FieldValues>({
               accept={accept}
               multiple={multiple}
               ref={ref}
-              className={clsx('file-input border-2', inputClassName)}
+              className={clsx('w-full file-input border-2', inputClassName)}
             />
-
-            {/* Show uploaded file name if value is a string (edit mode) */}
-            {value && typeof value === 'string' && (
-              <div className="mt-2">
-                <a
-                  href={value}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-blue-600 underline"
-                >
-                  📎 {decodeURIComponent(value.split('/').pop() || 'Download File')}
-                </a>
-              </div>
-            )}
 
             {/* Show selected file name if user selects during new upload */}
             {value instanceof File && (

@@ -3,7 +3,6 @@ import { useForm } from "react-hook-form";
 import EpicFileUpload from "@/components/epic/EpicFileUpload";
 import EpicButton from "@/components/epic/EpicButton";
 import EpicDropdown from "@/components/epic/epic-dropdown/EpicDropdown";
-import EpicTextField from "@/components/epic/epic-textfield/EpicTextField";
 import EpicMultiSelect from "@/components/epic/EpicMultiSelect";
 import useTransactionForm from "@/hooks/useTransactionForm";
 import { useEffect, useRef } from "react";
@@ -24,7 +23,6 @@ const OperationalDocumentModal = ({transactionWatch, transactionSetValue,documen
             defaultValues: {
                 document_category: "operational",
                 document_type_id: '',
-                document_name: '',
                 document_file_url: undefined,
                 document_access_id: [],
             },
@@ -53,7 +51,6 @@ const OperationalDocumentModal = ({transactionWatch, transactionSetValue,documen
                 </DialogHeader>
                 <div className="grid grid-cols-[repeat(auto-fit,minmax(250px,1fr))] justify-start gap-3">
                     <EpicDropdown name="document_type_id" label="Document Type" control={popupControl} options={contractList} optionKey="id" optionValue="name" placeholder="Select Document Type" required />
-                    <EpicTextField name="document_name" label="Document Name" control={popupControl} placeholder="Document Name" required />
                     <EpicFileUpload name="document_file_url" label="Upload File" control={popupControl} required accept=".pdf,.docx" multiple={false} />
                     <EpicMultiSelect name="document_access_id" label="Document Access" control={popupControl} options={documentAccessUserList} required variant="inverted" animation={2} maxCount={1} placeholder="Select User Access" className="w-[410px]" />
                 </div>

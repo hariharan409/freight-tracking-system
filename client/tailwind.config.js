@@ -24,7 +24,7 @@ export const theme = {
       foreground: "hsl(var(--foreground))",
       sidebar: {
         'nav-bg': '#FFF',
-        'nav-bg-hover': "#dbeafe"
+        'nav-bg-hover': "rgba(242,242,242,0.8)",
       },
       'main-bg': '#FFF',
       'button': {

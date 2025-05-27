@@ -11,7 +11,7 @@ const AppHeader = () => {
     const [open, setOpen] = useState(false);
 
     return(
-        <div className="flex items-center h-full px-4">
+        <div className="flex items-center h-full px-2">
             <img src={appLogo} className="w-[120px]" />
             <div className="flex-1 flex justify-end">
                 <Popover open={open} onOpenChange={setOpen}>

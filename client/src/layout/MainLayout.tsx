@@ -9,18 +9,20 @@ const MainLayout = () => {
     return (
         <div className="flex flex-col h-screen w-screen overflow-hidden">
             {/* Header */}
-            <header className="w-full h-header border-b-[1px] border-b-[rgba(0,0,0,0.3)] shadow-lg relative">
+            <header className="w-full h-header border-b border-[rgba(0,0,0,0.1)] shadow-lg relative">
                 <AppHeader />
             </header>
 
-            <div className={`h-full grid ${collapsed ? "md:[grid-template-columns:60px_auto]" : "md:[grid-template-columns:300px_auto]"}`}>
+            {/* Body */}
+            <div className="flex flex-1 overflow-hidden">
                 {/* Sidebar */}
-                <aside className="hidden md:block overflow-auto border-r-[1px] border-r-[rgba(0,0,0,0.3)]">
+                <aside
+                    className={`hidden md:block h-full border-r border-[rgba(0,0,0,0.1)] ${collapsed ? "w-[60px]" : "w-[300px]"}`}>
                     <AppSideBar collapsed={collapsed} toggleCollapsed={() => setCollapsed(!collapsed)} />
                 </aside>
 
-                {/* App Body */}
-                <main className="h-main bg-main-bg overflow-auto p-2">
+                {/* Main Content */}
+                <main className="flex-1 h-full bg-main-bg overflow-auto p-2">
                     <Outlet />
                 </main>
             </div>

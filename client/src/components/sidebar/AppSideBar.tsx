@@ -14,7 +14,7 @@ const AppSideBar = ({ collapsed, toggleCollapsed }: AppSideBarProps) => {
     const { version } = packageJson;
 
     return (
-        <div className={`h-full py-2 flex flex-col bg-white shadow-lg transition-all duration-300`}>
+        <div className={`h-full py-2 flex flex-col bg-blue-100 shadow-lg transition-all duration-300`}>
             {/* Toggle Button */}
             <div className="flex justify-end mb-2">
                 <button onClick={toggleCollapsed} className="p-1 hover:bg-gray-100 rounded">

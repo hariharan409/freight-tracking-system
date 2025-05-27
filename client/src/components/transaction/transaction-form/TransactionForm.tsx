@@ -43,10 +43,9 @@ const TransactionForm = () => {
                     <EpicDropdown name="insurance_type_id" label="Insurance Type" control={control} options={insuranceTypeList} optionKey="id" optionValue="name" placeholder="Enter the Insurance Type" />
                     <EpicDropdown name="insurance_broker_id" label="Insurance Broker" control={control} options={insuranceBrokerList} optionKey="id" optionValue="name" placeholder="Enter the Insurance Broker" />
                     <EpicDropdown name="permit_agent_id" label="Permit Agent" control={control} options={permitAgentList} optionKey="id" optionValue="name" required={true} placeholder="Select Permit Agent" />
-                    <EpicMultiSelect name="vendor_ids" label="Vendor List" control={control} options={vendorList} required variant="inverted" animation={2} maxCount={1} />
-                    {/* <EpicDropdown name="marine_port_of_auth" label="Marine Port of Auth" control={control} options={marinePortList} optionKey="id" optionValue="name" placeholder="Select MPA" /> */}
-                    <EpicCheckbox name="marine_port_of_auth" label="Is Marine Port of Auth" control={control} options={[ { label: 'Yes', value: true },{ label: 'No', value: false },]}/>
                     <EpicTextarea name="special_delivery_instruction" control={control} label="Special Delivery Instruction" placeholder="Enter the Special Delivery Instruction"  />
+                    <EpicMultiSelect name="vendor_ids" label="Vendor List" control={control} options={vendorList} required variant="inverted" animation={2} maxCount={1} />
+                    <EpicCheckbox name="marine_port_of_auth" label="Is Marine Port of Auth" control={control} options={[ { label: 'Yes', value: true },{ label: 'No', value: false },]}/>
                 </div>
                 <h3 className="text-center">shipment tracking details</h3>
                 <div className="grid grid-cols-[repeat(auto-fit,minmax(250px,1fr))] justify-start gap-3 mt-5">

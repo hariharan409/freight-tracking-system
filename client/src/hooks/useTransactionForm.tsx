@@ -8,7 +8,6 @@ const useTransactionForm = () => {
 
     interface ReferenceDocument {
         document_category: string;
-        document_name?: string;
         document_type_id?: string;
         document_file_url?: File;
         document_access_id: string
@@ -209,11 +208,7 @@ const useTransactionForm = () => {
           accessor: "document_type_id",
         },
         {
-          header: "Document Name",
-          accessor: "document_name",
-        },
-        {
-          header: "Upload Documents",
+          header: "Uploaded Documents",
           accessor: "document_file_url",
           renderCell: (_: any, index: any, control: Control<{ upload_reference_documents: any; } & { upload_reference_documents: any; }>) => {
             const document = watch("upload_reference_documents")[index];
@@ -262,11 +257,7 @@ const useTransactionForm = () => {
           accessor: "document_type_id",
         },
         {
-          header: "Document Name",
-          accessor: "document_name",
-        },
-        {
-          header: "Upload Documents",
+          header: "Uploaded Documents",
           accessor: "document_file_url",
           renderCell: (_: any, index: any, control: Control<{ upload_operational_documents: any; } & { upload_operational_documents: any; }>) => {
             const document = watch("upload_operational_documents")[index];
