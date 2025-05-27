@@ -8,6 +8,7 @@ import {
 } from "@/components/ui/table"
 import { Button } from "@/components/ui/button"
 import { useState } from "react"
+import { BackwardIcon, ForwardIcon } from "@heroicons/react/24/solid";
 
 interface Header<T> {
   header: string;
@@ -59,7 +60,7 @@ const EpicDataTable = <T,>({
           {paginatedData.map((row, rowIndex) => (
             <TableRow key={rowIndex}>
               {headerList.map((col) => (
-                <TableCell key={String(col.accessor)}>
+                <TableCell key={String(col.accessor)} className="text-[16px]">
                   {col.renderCell
                     ? col.renderCell(row, rowIndex, control)
                     : String(row[col.accessor as keyof T])}
@@ -72,25 +73,13 @@ const EpicDataTable = <T,>({
 
       {/* Pagination UI */}
       {totalPages > 1 && (
-        <div className="flex justify-end items-center gap-2 mt-4">
-          <Button
-            type="button"
-            variant="outline"
-            onClick={() => handlePageChange(currentPage - 1)}
-            disabled={currentPage === 1}
-          >
-            Previous
+        <div className="flex justify-center items-center gap-2 mt-4">
+          <Button type="button" variant="outline" onClick={() => handlePageChange(currentPage - 1)} disabled={currentPage === 1}>
+            <BackwardIcon />
           </Button>
-          <span className="text-sm">
-            Page {currentPage} of {totalPages}
-          </span>
-          <Button
-            type="button"
-            variant="outline"
-            onClick={() => handlePageChange(currentPage + 1)}
-            disabled={currentPage === totalPages}
-          >
-            Next
+          <span className="text-sm">Page {currentPage} of {totalPages}</span>
+          <Button type="button" variant="outline" onClick={() => handlePageChange(currentPage + 1)} disabled={currentPage === totalPages}>
+            <ForwardIcon />
           </Button>
         </div>
       )}

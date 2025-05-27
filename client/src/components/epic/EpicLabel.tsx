@@ -33,7 +33,7 @@ const EpicLabel: React.FC<EpicLabelProps> = ({
         {showInfo && <TooltipProvider>
           <Tooltip>
             <TooltipTrigger asChild>
-              <Info className="w-4 h-4 text-gray-400 cursor-pointer" />
+              <Info className="w-4 h-4 text-black cursor-pointer" />
             </TooltipTrigger>
             <TooltipContent>
             <p className="text-xs">{tooltipText}</p>

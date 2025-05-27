@@ -6,10 +6,11 @@ import { ChevronDownIcon,ChevronRightIcon } from '@heroicons/react/24/solid';
 
 type SidebarItemProps = {
     item: MenuItem,
-    level?: number
+    level?: number,
+    collapsed?: boolean
 }
 
-const SidebarItem = ({ item, level = 0 }:SidebarItemProps) => {
+const SidebarItem = ({ item, level = 0,collapsed }:SidebarItemProps) => {
     const {pathname} = useAppRouter();
     const {open,handlePress,hasChildren} = useAppSideBar({item, level:0});
 
@@ -18,12 +19,12 @@ const SidebarItem = ({ item, level = 0 }:SidebarItemProps) => {
             <div className={clsx("h-8 mb-1 flex items-center gap-2 cursor-pointer px-2 py-5",pathname === item.navLink ? "bg-primary-gradient text-white border-[1px]" : "bg-sidebar-nav-bg hover:bg-sidebar-nav-bg-hover text-black","border-[1px]")} onClick={() => handlePress(item.navLink,item.param)}>
                 {level === 0 && <div className={clsx("h-6 w-1",pathname === item.navLink ? "bg-white" : "bg-black")} />}
                 <div className="transform min-w-5">{item.icon()}</div>
-                <span className="capitalize font-medium truncate" title={item.label}>{item.label}</span>
-                {hasChildren && (open ? <ChevronDownIcon className="w-5 h-5 ml-auto" /> : <ChevronRightIcon className="w-5 h-5 ml-auto" />)}
+                {!collapsed && <span className="capitalize font-medium truncate" title={item.label}>{item.label}</span>}
+                {(hasChildren && !collapsed) && (open ? <ChevronDownIcon className="w-5 h-5 ml-auto" /> : <ChevronRightIcon className="w-5 h-5 ml-auto" />)}
             </div>
             {hasChildren && open && (
                 <div className="ml-2">
-                    {item.children?.map((child,idx) => (
+                    {item.children?.map((child: object,idx: number) => (
                         <SidebarItem key={idx} item={child} level={level + 1} />
                     ))}
                 </div>

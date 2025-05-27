@@ -1,11 +1,8 @@
 import { Control, useForm } from "react-hook-form";
 import {DateTime} from "luxon";
 import { useEffect } from "react";
-import EpicTextField from "@/components/epic/epic-textfield/EpicTextField";
-import EpicFileUpload from "@/components/epic/EpicFileUpload";
-import EpicMultiSelect from "@/components/epic/EpicMultiSelect";
-import EpicDropdown from "@/components/epic/epic-dropdown/EpicDropdown";
-import { MinusCircleIcon } from '@heroicons/react/24/solid';
+import { MinusCircleIcon,PencilIcon } from '@heroicons/react/24/solid';
+import ReferenceDocumentModal from "@/components/transaction/transaction-form/ReferenceDocumentModal";
 
 const useTransactionForm = () => {
 
@@ -106,19 +103,6 @@ const useTransactionForm = () => {
         }
     });
 
-    const referenceDocumentsObj: ReferenceDocument = {
-        document_category: "reference",
-        document_type_id : "", // should be the dropdown
-        document_name: "",
-        document_file_url: undefined,
-        document_access_id: "",
-    };
-
-    useEffect(() => {
-        if(watch("upload_reference_documents").length === 0) watch("upload_reference_documents").push(referenceDocumentsObj);
-        if(watch("upload_operational_documents").length === 0) watch("upload_operational_documents").push(referenceDocumentsObj);
-    });
-
     // Watch the ETD and ETA dates
     const plannedEtdDate = watch("planned_etd_date");
     const plannedEtaDate = watch("planned_eta_date");
@@ -209,9 +193,9 @@ const useTransactionForm = () => {
     ];
 
     const documentAccessUserList = [
-        {value: "1",label: "freight-forwarder"},
-        {value: "2",label: "permit-agent"},
-        {value: "3",label: "internal"},
+        {value: "freight-forwarder",label: "freight-forwarder"},
+        {value: "permit-agent",label: "permit-agent"},
+        {value: "internal",label: "internal"},
     ];
 
     const marinePortList = [
@@ -223,120 +207,47 @@ const useTransactionForm = () => {
         {
           header: "Document Type",
           accessor: "document_type_id",
-          renderCell: (_: any, index: any, control: Control<{ upload_reference_documents: any; } & { upload_reference_documents: any; }>) => (
-            <EpicDropdown name={`upload_reference_documents.${index}.document_type_id`} label="Document Type" control={control} options={contractList} optionKey="id" optionValue="name" placeholder="Select Document Type" showLabel={false} required />
-          ),
         },
         {
           header: "Document Name",
           accessor: "document_name",
-          renderCell: (_: any, index: any, control: Control<{ upload_reference_documents: any; } & { upload_reference_documents: any; }>) => (
-            <EpicTextField
-              name={`upload_reference_documents.${index}.document_name`}
-              label="Document Name"
-              control={control}
-              placeholder="Document Name"
-              showLabel={false}
-              required
-            />
-          ),
         },
         {
           header: "Upload Documents",
           accessor: "document_file_url",
-          renderCell: (_: any, index: any, control: Control<{ upload_reference_documents: any; } & { upload_reference_documents: any; }>) => (
-            <EpicFileUpload
-                showLabel={false}
-                name={`upload_reference_documents.${index}.document_file_url`}
-                label="Upload File"
-                control={control}
-                required
-                accept=".pdf,.docx"
-                multiple={false}
-            />
-          ),
+          renderCell: (_: any, index: any, control: Control<{ upload_reference_documents: any; } & { upload_reference_documents: any; }>) => {
+            const document = watch("upload_reference_documents")[index];
+            const fileUrl = document?.document_file_url;
+            // If it's a previously saved file object (e.g. from backend)
+            if (typeof fileUrl === "object" && fileUrl.name) {
+              return (
+                <a href={URL.createObjectURL(fileUrl)} target="_blank" rel="noopener noreferrer" className="underline text-blue-600">
+                  {fileUrl.name}
+                </a>
+              );
+            }
+          },
         },
         {
           header: "Document Access",
           accessor: "document_access_id",
-          renderCell: (_: any, index: number, control: Control<{ upload_reference_documents: any; } & { upload_reference_documents: any; }>) => (
-            <EpicMultiSelect name={`upload_reference_documents.${index}.document_access_id`} showLabel={false} label="Document Access" control={control} options={documentAccessUserList} required variant="inverted" animation={2} maxCount={1} placeholder="Select User Access" className="w-[410px]" />
-          ),
         },
         {
             header: "Action",
             accessor: "action",
             renderCell: (_: any, index: number, control: Control<{ upload_reference_documents: any; } & { upload_reference_documents: any; }>) => (
-                <MinusCircleIcon className="w-6 h-6 text-black cursor-pointer" onClick={() => removeNewReferenceDocument(index)} />
+                <div className="flex gap-2 items-center">
+                  <ReferenceDocumentModal transactionWatch={watch} transactionSetValue={setValue} document={watch("upload_reference_documents")[index]} documentIndex={index} trigger={<PencilIcon className="w-6 h-6 cursor-pointer"  />}/>
+                  <MinusCircleIcon className="w-8 h-8 text-red-500 cursor-pointer" onClick={() => removeNewReferenceDocument(index)} />
+                </div>
             ),
         }
       ] as const;
-
-    const addNewReferenceDocument = () => {
-        setValue("upload_reference_documents",[...watch("upload_reference_documents"),referenceDocumentsObj]);
-    }
 
     const removeNewReferenceDocument = (indexToRemove: number) => {
         const currentDocs = watch("upload_reference_documents") || [];
         const updatedDocs = currentDocs.filter((_, index) => index !== indexToRemove);
         setValue("upload_reference_documents", updatedDocs);
-    }
-
-    const operationalDocumentheaderList = [
-        {
-          header: "Document Type",
-          accessor: "document_type_id",
-          renderCell: (_: any, index: any, control: Control<{ upload_operational_documents: any; } & { upload_operational_documents: any; }>) => (
-            <EpicDropdown name={`upload_operational_documents.${index}.document_type_id`} label="Document Type" control={control} options={contractList} optionKey="id" optionValue="name" placeholder="Select Document Type" required />
-          ),
-        },
-        {
-          header: "Document Name",
-          accessor: "document_name",
-          renderCell: (_: any, index: any, control: Control<{ upload_operational_documents: any; } & { upload_operational_documents: any; }>) => (
-            <EpicTextField
-              name={`upload_operational_documents.${index}.document_name`}
-              label="Document Name"
-              control={control}
-              placeholder="Document Name"
-              showLabel={false}
-              required
-            />
-          ),
-        },
-        {
-          header: "Upload Documents",
-          accessor: "document_file_url",
-          renderCell: (_: any, index: any, control: Control<{ upload_operational_documents: any; } & { upload_operational_documents: any; }>) => (
-            <EpicFileUpload
-                showLabel={false}
-                name={`upload_operational_documents.${index}.document_file_url`}
-                label="Upload File"
-                control={control}
-                required
-                accept=".pdf,.docx"
-                multiple={false}
-            />
-          ),
-        },
-        {
-          header: "Document Access",
-          accessor: "document_access_id",
-          renderCell: (_: any, index: number, control: Control<{ upload_operational_documents: any; } & { upload_operational_documents: any; }>) => (
-            <EpicMultiSelect name={`upload_operational_documents.${index}.document_access_id`} showLabel={false} label="Document Access" control={control} options={documentAccessUserList} required variant="inverted" animation={2} maxCount={1} placeholder="Select User Access" className="w-[410px]" />
-          ),
-        },
-        {
-            header: "Action",
-            accessor: "action",
-            renderCell: (_: any, index: number, control: Control<{ upload_reference_documents: any; } & { upload_reference_documents: any; }>) => (
-                <MinusCircleIcon className="w-6 h-6 text-black cursor-pointer" onClick={() => removeNewOperationalDocument(index)} />
-            ),
-        }
-      ] as const;
-
-    const addNewOperationalDocument = () => {
-        setValue("upload_operational_documents",[...watch("upload_operational_documents"),referenceDocumentsObj]);
     }
 
     const removeNewOperationalDocument = (indexToRemove: number) => {
@@ -345,10 +256,51 @@ const useTransactionForm = () => {
         setValue("upload_operational_documents", updatedDocs);
     }
 
+    const operationalDocumentheaderList = [
+        {
+          header: "Document Type",
+          accessor: "document_type_id",
+        },
+        {
+          header: "Document Name",
+          accessor: "document_name",
+        },
+        {
+          header: "Upload Documents",
+          accessor: "document_file_url",
+          renderCell: (_: any, index: any, control: Control<{ upload_operational_documents: any; } & { upload_operational_documents: any; }>) => {
+            const document = watch("upload_operational_documents")[index];
+            const fileUrl = document?.document_file_url;
+            // If it's a previously saved file object (e.g. from backend)
+            if (typeof fileUrl === "object" && fileUrl.name) {
+              return (
+                <a href={URL.createObjectURL(fileUrl)} target="_blank" rel="noopener noreferrer" className="underline text-blue-600">
+                  {fileUrl.name}
+                </a>
+              );
+            }
+          },
+        },
+        {
+          header: "Document Access",
+          accessor: "document_access_id",
+        },
+        {
+            header: "Action",
+            accessor: "action",
+            renderCell: (_: any, index: number, control: Control<{ upload_operational_documents: any; } & { upload_operational_documents: any; }>) => (
+                <div className="flex gap-1 items-center">
+                  <ReferenceDocumentModal transactionWatch={watch} transactionSetValue={setValue} document={watch("upload_operational_documents")[index]} documentIndex={index} trigger={<PencilIcon className="w-5 h-5 cursor-pointer"  />}/>
+                  <MinusCircleIcon className="w-6 h-6 text-red-500 cursor-pointer" onClick={() => removeNewOperationalDocument(index)} />
+                </div>
+            ),
+        }
+      ] as const;
+
     return {
         control,errors,handleSubmit,onFormSubmit,watch,
         //for testing
-        vendorList,permitAgentList,contractList,materialCertificateList,insuranceTypeList,insuranceBrokerList,referenceDocumentheaderList,addNewReferenceDocument,addNewOperationalDocument,operationalDocumentheaderList,marinePortList
+        vendorList,permitAgentList,contractList,materialCertificateList,insuranceTypeList,insuranceBrokerList,referenceDocumentheaderList,operationalDocumentheaderList,marinePortList,documentAccessUserList,setValue
     }
 }
 
